@@ -1,0 +1,21 @@
+---
+- name: S3 Static Site stack
+  hosts: localhost
+  gather_facts: false
+  vars:
+    - bucketname: <bucket_name> # Replace with bucket name, ensure it is unique
+    - region: <region> # Replace with your region, e.g. ap-southeast-1
+  tasks:
+    - s3_bucket:
+        name: "{{ bucketname }}"
+        state: present
+    - s3_sync:
+        bucket: "{{ bucketname }}"
+        file_root: public
+        permission: public-read
+    - s3_website:
+        name: "{{ bucketname }}"
+        state: present
+      register: s3website
+    - debug:
+        msg: "Site URL is http://{{ bucketname }}.s3-website-{{ region }}.amazonaws.com"
