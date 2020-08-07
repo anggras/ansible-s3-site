@@ -9,13 +9,16 @@
     - s3_bucket:
         name: "{{ bucketname }}"
         state: present
+        region: "{{ region }}"
     - s3_sync:
         bucket: "{{ bucketname }}"
         file_root: public
         permission: public-read
+        region: "{{ region }}"
     - s3_website:
         name: "{{ bucketname }}"
         state: present
+        region: "{{ region }}"
       register: s3website
     - debug:
         msg: "Site URL is http://{{ bucketname }}.s3-website-{{ region }}.amazonaws.com"
